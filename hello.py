@@ -1,4 +1,5 @@
 from flask import Flask, render_template, url_for,  session, redirect, flash
+from datetime import datetime
 from flask_moment import Moment
 from flask_bootstrap import Bootstrap
 from flask_wtf import FlaskForm
@@ -50,7 +51,7 @@ def index():
 # hello.py - Example 2.2 - Dynamic Routing
 @app.route('/user/<name>')
 def user(name):
-    return render_template('user.html', name=name)
+    return render_template('user.html', name=name, current_time= datetime.utcnow())
 
 # hello.py - Example 3.6 - Custom Error Pages
 @app.errorhandler(404)
