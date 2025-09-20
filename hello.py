@@ -2,7 +2,12 @@ from flask import Flask, render_template, url_for
 from datetime import datetime
 from flask_moment import Moment
 from flask_bootstrap import Bootstrap
+from flask_wtf import FlaskForm
+from wtforms import StringField, SubmitField
+from wtforms.validators import DataRequired
+
 app = Flask(__name__)
+app.config['SECRET_KEY'] = 'hard to guess string'
 
 # hello.py - Example 3.4 - Using Flask-Bootstrap
 Bootstrap = Bootstrap(app)
@@ -10,10 +15,20 @@ Bootstrap = Bootstrap(app)
 # Example 3.11 - Using Flask-Moment
 Moment = Moment(app)
 
-# hello.py - Example 2.1 - Simple Route
-@app.route('/')
+# Example 4.2 - Using class form definitions
+class NameForm(FlaskForm):
+    name = StringField('What is your name?', validators=[DataRequired()])
+    submit = SubmitField('Submit')
+
+# Example 4.4 - Handling form submissions
+@app.route('/', methods=['GET', 'POST'])
 def index():
-    return render_template('index.html', name="Richelle", current_time=datetime.utcnow())
+    name = None
+    form = NameForm()
+    if form.validate_on_submit():
+        name = form.name.data
+        form.name.data = ''
+    return render_template('index.html', form=form, name=name)
 
 # hello.py - Example 2.2 - Dynamic Routing
 @app.route('/user/<name>')
