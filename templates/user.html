@@ -1,0 +1,51 @@
+{% extends "bootstrap/base.html" %}
+{% block title %}Flasky{% endblock %}
+
+{% block navbar %}
+<div class="navbar navbar-inverse" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle"
+             data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Flasky</a>
+        </div>
+        <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+                <li><a href="/">Home</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="page-header">
+        <h1>Hello {{ name|capitalize }}!</h1>
+        <br>
+        <p>The local date and time is {{ timestamp.strftime('%A, %B %d, %Y %I:%M %p') }}.</p>
+        <br>
+        <p>That was <span id="timeAgo">{{ diff_min }}</span> minutes ago.</p>
+    </div>
+</div>
+
+<!-- Using js from previous learning to update the time stamp dynamically -->
+<script>
+    const originalTime = new Date("{{ timestamp.isoformat() }}");
+    const timeAgoDisplay = document.getElementById('timeAgo');
+    function updateTimeAgo() {
+        const now = new Date();
+        const diffMs = now - originalTime;
+        const diffMin = Math.floor(diffMs / 60000); // convert to minutes
+        timeAgoDisplay.textContent = diffMin === 0 ? 'just now' : diffMin;
+    }
+    updateTimeAgo();
+    setInterval(updateTimeAgo, 60000);
+</script>
+
+{% endblock %}
