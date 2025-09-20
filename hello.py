@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, url_for
 from datetime import datetime
 from flask_moment import Moment
 from flask_bootstrap import Bootstrap
@@ -13,12 +13,12 @@ Moment = Moment(app)
 # hello.py - Example 2.1 - Simple Route
 @app.route('/')
 def index():
-    return render_template('index.html')
+    return render_template('index.html', name="Richelle", current_time=datetime.utcnow())
 
 # hello.py - Example 2.2 - Dynamic Routing
 @app.route('/user/<name>')
 def user(name):
-    return render_template('user.html', name=name, current_time=datetime.utcnow())
+    return render_template('user.html', name=name)
 
 # hello.py - Example 3.6 - Custom Error Pages
 @app.errorhandler(404)
