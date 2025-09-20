@@ -1,12 +1,10 @@
 from flask import Flask, render_template, url_for,  session, redirect, flash
-from datetime import datetime
 from flask_moment import Moment
 from flask_bootstrap import Bootstrap
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField
-from wtforms.validators import DataRequired, Email
+from wtforms.validators import DataRequired
 import os
-
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.urandom(24)
@@ -17,10 +15,10 @@ Bootstrap = Bootstrap(app)
 # Example 3.11 - Using Flask-Moment
 Moment = Moment(app)
 
-# Example 4.2 - Using class form definitions
+# Example 4.7 - modification for email field
 class User_Info(FlaskForm):
     name = StringField('What is your name?', validators=[DataRequired()])
-    email = StringField('What is your UofT email address?', validators=[DataRequired(message="Email is required!")])
+    email = StringField('What is your UofT email address?', validators=[DataRequired()])
     submit = SubmitField('Submit')
 
 # Example 4.7 - Handling form submissions
